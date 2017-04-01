@@ -1,0 +1,10 @@
+ms.pdf
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.out
+*.toc
+.DS_Store
+auto/

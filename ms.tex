@@ -1,0 +1,265 @@
+\documentclass[11pt,a4paper,oneside]{memoir}
+%\documentclass[11pt,a4paper,twosides]{memoir}
+%\documentclass[11pt,a4paper,openany]{book}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% set pagesytle
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\setstocksize{11in}{8.5in}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+\settrims{0in}{0in}
+\settypeblocksize{9.0in}{5.75in}{*}
+%\setlrmargins{1.25in}{*}{*}
+\setlrmargins{*}{*}{1.5}
+\setulmargins{1.2in}{*}{0.5}
+\setheadfoot{16pt}{30pt}
+\setheaderspaces{0.7in}{*}{*}
+\checkandfixthelayout
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% set chaptersytle
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[svgnames]{xcolor}
+\usepackage{fix-cm}
+\definecolor{numbercolor}{gray}{0.7}
+\newif\ifchapternonum
+\makechapterstyle{jenor}{
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternum{}
+  \renewcommand\printchapternonum{\chapternonumtrue}
+  \renewcommand\chapnumfont{\fontfamily{pbk}\fontseries{m}\fontshape{n}%
+    \fontsize{1in}{0in}\selectfont\color{numbercolor}}
+  \renewcommand\printchaptertitle[1]{%
+    \noindent%
+    \ifchapternonum%
+    \begin{tabularx}{\textwidth}{X}%
+    {\parbox[b]{\linewidth}{\chaptitlefont ##1}%
+      \vphantom{\raisebox{-15pt}{\chapnumfont 1}}}
+    \end{tabularx}%
+    \else
+    \begin{tabularx}{\textwidth}{Xl}
+    {\parbox[b]{\linewidth}{\chaptitlefont ##1}}
+    & \raisebox{-15pt}{\chapnumfont \thechapter}%
+    \end{tabularx}%
+    \fi
+    \par\vskip2mm\hrule
+  }
+}
+\chapterstyle{jenor}
+%\chapterstyle{ell}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% packages
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{
+  calc,
+  url,
+  fancyvrb,
+  multicol,
+  indentfirst,
+  ulem,
+  wrapfig,
+  kvsetkeys
+}
+\usepackage[yyyymmdd]{datetime}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[columns=2]{idxlayout}
+\usepackage{kotex}
+%\SetHangulFonts{hkbt}{wgt}{uttz}
+\ifpdf
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+  linkcolor=blue
+}
+\fi
+
+%%%%%%%%%%%%%%%%%%%
+% titlepage setup
+%%%%%%%%%%%%%%%%%%%
+
+%%% for the Fontsite 500 fonts
+\newcommand*{\FSfont}[1]{%
+  \fontencoding{T1}\fontfamily{#1}\selectfont}
+%\renewcommand*{\FSfont}[1]{}%    kills special font selections
+\newlength{\drop}
+
+\newcommand*{\titlePP}{\begingroup% Printing Poetry
+%\FSfont{5jr}% FontSite Jenson Recut (Centaur)
+\drop=0.06\textheight
+\vspace*{\drop}
+\begin{raggedleft}
+%{\HUGE\color{Navy} PUZZLING}\\[\baselineskip]
+{\HUGE\color{MidnightBlue} 천문학과 대학원생을 위한}\\[\baselineskip]
+{{\LARGE{대학원 입학, 생활, 연구}}}\\[1.1\baselineskip]
+{\HUGE\color{MidnightBlue} 매뉴얼} \\[\baselineskip]
+{\Large by 천문학과 대학원생 일동}\par
+\end{raggedleft}
+\vfill
+\begin{center}
+\includegraphics[width=6in]{./Figures/cover_mod.jpg}
+%{\normalfont\fontsize{192pt}{192pt}\selectfont ?!}
+\end{center}
+\vfill
+\begin{center}
+{\large \textsc{Ver 1.1}}
+\end{center}
+\vspace*{\drop}
+%\mbox{}
+\endgroup}
+
+
+%%%%%%%%%%%%%%%%%%%
+% indexpage setup
+%%%%%%%%%%%%%%%%%%%
+\renewcommand*{\indexname}{찾아보기}
+\usepackage{makeidx}
+\makepagestyle{index}
+  \makeheadrule{index}{\textwidth}{\normalrulethickness}
+  \makeevenhead{index}{\rightmark}{}{\leftmark}
+  \makeoddhead{index}{\rightmark}{}{\leftmark}
+  \makeevenfoot{index}{\thepage}{}{}
+  \makeoddfoot{index}{}{}{\thepage}
+\makeindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% commands, environments, etc.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.2\baselineskip}
+%\newcommand\starbreak{\fancybreak{\decosix\quad\decosix\quad\decosix}}
+\newcommand\starbreak{\fancybreak{$*\quad*\quad*$}}
+\renewcommand*{\bibname}{참고문헌}
+\renewcommand*{\contentsname}{차례}
+%%% Use footnote symbol
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+%%% ToC down to subsections
+\settocdepth{subsection}
+%%% Numbering down to subsections as well
+\setsecnumdepth{subsection}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+\OnehalfSpacing
+\pagestyle{empty}
+\titlePP
+
+\clearpage
+% copyright page
+\begingroup
+\footnotesize
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+%%\ttfamily
+\textcopyright{} 2014 --- 서울대학교 천문학과 대학원 \\
+All rights reserved
+
+Astronomy Program, Seoul National University, Seoul.
+
+이 책의 PDF 버전과 소스 파일들은 서울대학교 천문학과 대학원생
+홈페이지(\url{http://astro.snu.ac.kr/~grad})에서 찾아볼 수 있습니다.
+
+\begin{center}
+\begin{tabular}{ll}
+  Ver 1.0 : \hspace{2cm}   & 2012년 3월 \\
+  Ver 1.1 : \hspace{2cm}   & 2014년 1월 \\
+% Second impression, with corrections:    & 2 July 2001 \\
+\end{tabular}
+\end{center}
+최종 수정일: \today
+% \fi
+
+\endgroup
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\input{preface}
+
+\end{frontmatter}
+\clearpage
+
+\begin{mainmatter}
+\OnehalfSpacing
+\chapter{대학원 생활 시작하기}
+\input{chap1}
+
+\chapter{대학원에서 살아남기}
+\input{chap2}
+
+\chapter{천문학 연구 시작하기}
+\input{chap3}
+
+\chapter{연구자로 살아남기}
+\input{chap4}
+
+%Some text.A\index{Alpha}B\index{브라보}C\index{Charlie}\index{델타}\index{Echo}\index{Foxtrott}
+\end{mainmatter}
+
+\begin{backmatter}
+
+\input{epilogue}
+\input{bibliography}
+
+\clearpage
+\twocolindex
+\pagestyle{index}
+
+%\renewcommand{\chaptermark}[1]{}
+\renewcommand{\preindexhook}{%
+하고 싶은 말.\vskip\onelineskip}
+\indexintoc
+
+%%%\raggedright does nasty things to index entries
+\printindex
+
+\cleardoublepage \thispagestyle{empty} \null%\vfil
+\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip
+\begin{adjustwidth}{0.5in}{0.5in}
+\begin{center}
+{\Large\textsf{만든이들}}
+\end{center}
+\begin{center}
+\vskip\onelineskip
+\textsf{1장: 김두호, 윤요셉, 이재형, 임형묵, 김용정 \\\vskip\onelineskip
+2장: 서우영, 강월랑, 김예솔, 박근홍, 박다우, Dr. 박홍수, 신재진, 이헌철 \\\vskip\onelineskip
+3장: 장인성, 고유경, 김용범, 박대성, 오세명, 홍주은 \\\vskip\onelineskip
+4장: 박근홍, 김두호, 장인성, 현민희, 곽한나 \\\vskip\onelineskip
+편집부: 손주비, 김정규}\\
+\vskip\onelineskip
+\textsf{Special Thanks to: Prof. 박용선, Prof. 이명균, Dr. 김창구}
+
+\vskip\onelineskip\vskip\onelineskip\vskip\onelineskip
+{\footnotesize{이 문서는 LaTeX에서 memoir 클래스, kotex 패키지 등을 이용해 만들어졌습니다.}}\\
+\vskip\onelineskip
+{\footnotesize{책값은 공짜입니다. (고마우신 분들은 개별적인 사례를 ...)}}
+\vskip\onelineskip
+{\footnotesize{잘못된 책은 못 바꾸어 드립니다. (미안합니다...)}}
+\end{center}
+\end{adjustwidth}
+
+\end{backmatter}
+
+\end{document}
